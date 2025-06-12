@@ -6,6 +6,12 @@ body {
   padding: 0;
 }
 
+/* Center heading and intro paragraph */
+.container > h1,
+.container > p {
+  text-align: center;
+}
+
 .container {
   max-width: 900px;
   margin: 2rem auto;
