@@ -253,16 +253,20 @@ video {
   height: auto;
 }
 
-/* Social Icons */
+/* Social Icons Group */
+
 .social-icons {
   display: flex;
-  align-items: center;
-  justify-content: center;
   gap: 1rem;
   margin-top: 1rem;
-  /* Add these if needed to match button positioning */
-  margin-bottom: 1rem;
-  width: 100%;
+}
+
+.social-icons > * {
+  margin-right: 0.8rem;
+}
+
+.social-icons > *:last-child {
+  margin-right: 0;
 }
 
 .social-icons img {
