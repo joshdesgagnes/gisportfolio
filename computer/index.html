@@ -1,1 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Joshua Desgagnés – Virtual Desktop</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="desktop-container" id="desktop">
+    <!-- Icons -->
+    <div class="desktop-icon" data-window="travel" tabindex="0" role="button" aria-label="Open Travel Pictures Folder">
+      <img src="assets/icons/folder.svg" alt="Folder Icon" />
+      <span>Travel Pictures</span>
+    </div>
+
+    <div class="desktop-icon" data-window="blogs" tabindex="0" role="button" aria-label="Open Blogs Folder">
+      <img src="assets/icons/folder.svg" alt="Folder Icon" />
+      <span>Blogs</span>
+    </div>
+
+    <div class="desktop-icon" data-window="about" tabindex="0" role="button" aria-label="Open About Me Window">
+      <img src="assets/icons/info.svg" alt="Info Icon" />
+      <span>About Me</span>
+    </div>
+  </div>
+
+  <!-- Windows Container -->
+  <div id="windows-container"></div>
+
+  <script>
+    // Simple desktop window system
+    const desktop = document.getElementById('desktop');
+    const windowsContainer = document.getElementById('windows-container');
+
+    // Window contents for each folder/icon
+    const windowContents = {
+      travel: `
+        <h2>Travel Pictures</h2>
+        <p>Gallery coming soon! For now, imagine beautiful travel photos here.</p>
+        <ul>
+          <li>Paris 2019</li>
+          <li>New York 2021</li>
+          <li>Tokyo 2023</li>
+        </ul>
+      `,
+      blogs: `
+        <h2>Blogs</h2>
+        <p>Here will be links and snippets of blog posts.</p>
+        <ul>
+          <li><strong>GIS Project Insights</strong> - March 2025</li>
+          <li><strong>Travel Tips & Tricks</strong> - January 2025</li>
+          <li><strong>JavaScript Adventures</strong> - December 2024</li>
+        </ul>
+      `,
+      about: `
+        <h2>About Me</h2>
+        <p>Joshua Desgagnés, GIS enthusiast and web developer. I love combining spatial data with web technologies.</p>
+      `
+    };
+
+    // Keep track of opened windows by id
+    const openWindows = {};
+
+    // Create draggable window
+    function createWindow(id, content) {
+      if (openWindows[id]) {
+        // Bring window to front
+        openWindows[id].style.zIndex = getNextZIndex();
+        return;
+      }
+
+      const win = document.createElement('div');
+      win.className = 'desktop-window';
+      win.style.zIndex = getNextZIndex();
+      win.style.top = `${100 + Object.keys(openWindows).length * 30}px`;
+      win.style.left = `${100 + Object.keys(openWindows).length * 30}px`;
+      win.setAttribute('role', 'dialog');
+      win.setAttribute('aria-modal', 'true');
+      win.setAttribute('aria-labelledby', `${id}-title`);
+
+      win.innerHTML = `
+        <div class="desktop-window-header" id="${id}-title">
+          <span>${capitalizeFirstLetter(id)}</span>
+          <button class="desktop-window-close" aria-label="Close window">&times;</button>
+        </div>
+        <div class="desktop-window-content">${content}</div>
+      `;
+
+      // Close button event
+      win.querySelector('.desktop-window-close').addEventListener('click', () => {
+        windowsContainer.removeChild(win);
+        delete openWindows[id];
+      });
+
+      // Make draggable
+      makeDraggable(win);
+
+      windowsContainer.appendChild(win);
+      openWindows[id] = win;
+    }
+
+    // Capitalize helper
+    function capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    // Handle icon clicks
+    desktop.querySelectorAll('.desktop-icon').forEach(icon => {
+      icon.addEventListener('click', () => {
+        const id = icon.getAttribute('data-window');
+        createWindow(id, windowContents[id]);
+      });
+
+      icon.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          const id = icon.getAttribute('data-window');
+          createWindow(id, windowContents[id]);
+        }
+      });
+    });
+
+    // Track z-index to bring windows to front
+    let currentZ = 1000;
+    function getNextZIndex() {
+      return ++currentZ;
+    }
+
+    // Draggable logic
+    function makeDraggable(element) {
+      const header = element.querySelector('.desktop-window-header');
+      let offsetX = 0, offsetY = 0;
+      let isDragging = false;
+
+      header.addEventListener('mousedown', dragStart);
+      header.addEventListener('touchstart', dragStart, { passive: false });
+
+      function dragStart(e) {
+        e.preventDefault();
+        isDragging = true;
+        const rect = element.getBoundingClientRect();
+
+        if (e.type === 'mousedown') {
+          offsetX = e.clientX - rect.left;
+          offsetY = e.clientY - rect.top;
+          document.addEventListener('mousemove', dragMove);
+          document.addEventListener('mouseup', dragEnd);
+        } else if (e.type === 'touchstart') {
+          offsetX = e.touches[0].clientX - rect.left;
+          offsetY = e.touches[0].clientY - rect.top;
+          document.addEventListener('touchmove', dragMove, { passive: false });
+          document.addEventListener('touchend', dragEnd);
+        }
+
+        // Bring this window to front on drag start
+        element.style.zIndex = getNextZIndex();
+      }
+
+      function dragMove(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+        let clientX, clientY;
+
+        if (e.type === 'mousemove') {
+          clientX = e.clientX;
+          clientY = e.clientY;
+        } else if (e.type === 'touchmove') {
+          clientX = e.touches[0].clientX;
+          clientY = e.touches[0].clientY;
+        }
+
+        const left = clientX - offsetX;
+        const top = clientY - offsetY;
+
+        // Keep window inside viewport bounds (simple clamp)
+        const maxLeft = window.innerWidth - element.offsetWidth;
+        const maxTop = window.innerHeight - element.offsetHeight;
+
+        element.style.left = Math.min(Math.max(0, left), maxLeft) + 'px';
+        element.style.top = Math.min(Math.max(0, top), maxTop) + 'px';
+      }
+
+      function dragEnd() {
+        isDragging = false;
+        document.removeEventListener('mousemove', dragMove);
+        document.removeEventListener('mouseup', dragEnd);
+        document.removeEventListener('touchmove', dragMove);
+        document.removeEventListener('touchend', dragEnd);
+      }
+    }
+  </script>
+</body>
+</html>
 
