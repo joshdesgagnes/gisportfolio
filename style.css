@@ -14,7 +14,6 @@ html {
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   height: 100%;
   line-height: 1.6;
   color: #1C1C1E;
@@ -201,7 +200,7 @@ video {
 /* Desktop Icons */
 .desktop-icons {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 80px);
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
   gap: 20px;
   padding: 20px;
   height: calc(100% - 48px);
@@ -277,6 +276,7 @@ video {
   right: 0;
   width: 100%;
   height: 48px;
+  padding-bottom: 48px;
   background: rgba(248, 249, 250, 0.8);
   backdrop-filter: blur(20px);
   border-top: 1px solid rgba(255, 255, 255, 0.2);
