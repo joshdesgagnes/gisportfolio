@@ -67,7 +67,7 @@ h1 {
   color: #1C1C1C;
 }
 
-h1v2 {
+#centered-title {
   text-align: center;
   font-family: 'Merriweather', Georgia, serif;
   font-weight: 700;
