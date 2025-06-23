@@ -234,6 +234,15 @@ h1 {
   border-radius: 8px;
 }
 
+.video-card.crop video {
+  width: 170%;
+  transform: translateX(-0%);
+  border-radius: 6px;
+  margin-top: 0.5rem;
+  max-width: none;
+  height: auto;
+}
+
 .video-card h3 {
   margin-top: 0;
 }
