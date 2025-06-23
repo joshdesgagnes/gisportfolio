@@ -1,89 +1,261 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>My Portfolio Desktop</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="stylesheet" href="../style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Josh's Desktop</title>
+    <link rel="stylesheet" href="../styles.css">
 </head>
-<body class="desktop">
-  <div id="desktop">
+<body>
+    <div class="laptop-frame">
+        <div class="screen">
+            <!-- Boot Screen -->
+            <div class="boot-screen">
+                <div class="boot-text">OS v1.0</div>
+                <div class="boot-text">Initializing desktop...</div>
+                <div class="loading-bar">
+                    <div class="loading-fill"></div>
+                </div>
+                <div class="boot-text">Loading data...</div>
+            </div>
 
-    <!-- Desktop Icons -->
-    <div class="icon" onclick="openWindow('about')">
-      <img src="assets/icon-folder.png" alt="About" />
-      <span>About Me</span>
+            <!-- Desktop -->
+            <div class="desktop">
+                <div class="desktop-icons">
+                    <div class="desktop-icon" ondblclick="openWindow('about-window')">
+                        <div class="icon">👨‍💻</div>
+                        <div class="icon-label">About Me</div>
+                    </div>
+                    
+                    <div class="desktop-icon" ondblclick="openWindow('portfolio-window')">
+                        <div class="icon">🗺️</div>
+                        <div class="icon-label">GIS Portfolio</div>
+                    </div>
+                    
+                    <div class="desktop-icon" ondblclick="openWindow('travel-window')">
+                        <div class="icon">📷</div>
+                        <div class="icon-label">Travel Photos</div>
+                    </div>
+                    
+                    <div class="desktop-icon" ondblclick="openWindow('blog-window')">
+                        <div class="icon">📝</div>
+                        <div class="icon-label"> Blog</div>
+                    </div>
+                    
+                    <div class="desktop-icon" ondblclick="openWindow('files-window')">
+                        <div class="icon">📁</div>
+                        <div class="icon-label">My Files</div>
+                    </div>
+                    
+                    <div class="desktop-icon" ondblclick="openWindow('contact-window')">
+                        <div class="icon">📧</div>
+                        <div class="icon-label">Contact</div>
+                    </div>
+                    
+                    <div class="desktop-icon" onclick="window.open('https://github.com/joshuadesgagnes', '_blank')">
+                        <div class="icon">💻</div>
+                        <div class="icon-label">GitHub</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Taskbar -->
+            <div class="taskbar">
+                <button class="start-button" onclick="toggleStartMenu()">Start</button>
+                <div class="clock" id="clock"></div>
+            </div>
+
+            <!-- Start Menu -->
+            <div class="start-menu" id="start-menu">
+                <div class="start-menu-header">Josh's Portfolio</div>
+                <div class="start-menu-item" onclick="openWindow('about-window')">About Me</div>
+                <div class="start-menu-item" onclick="openWindow('portfolio-window')">GIS Portfolio</div>
+                <div class="start-menu-item" onclick="openWindow('travel-window')">Travel Photos</div>
+                <div class="start-menu-item" onclick="openWindow('blog-window')">Blog</div>
+                <div class="start-menu-item" onclick="openWindow('files-window')">My Files</div>
+                <div class="start-menu-item" onclick="openWindow('contact-window')">Contact</div>
+            </div>
+        </div>
     </div>
 
-    <div class="icon" onclick="openWindow('projects')">
-      <img src="assets/icon-folder.png" alt="Projects" />
-      <span>Projects</span>
-    </div>
-
-    <!-- Taskbar & Start Menu -->
-    <div id="taskbar">
-      <div id="start-button" class="button">Start</div>
-      <div id="clock"></div>
-    </div>
-
-    <div id="start-menu" class="start-menu hidden">
-      <ul>
-        <li onclick="openWindow('about')">About Me</li>
-        <li onclick="openWindow('projects')">Projects</li>
-      </ul>
-    </div>
-
+    <!-- Windows -->
     <!-- About Window -->
-    <div id="about" class="window hidden" onclick="focusWindow(this)">
-      <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
-        About Me <button onclick="closeWindow('about')">X</button>
-      </div>
-      <div class="window-body">
-        <h2>Hello!</h2>
-        <p>This is a draggable window where you can introduce yourself.</p>
-      </div>
+    <div class="window" id="about-window" style="left: 100px; top: 80px;">
+        <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
+            <span>About Me - Josh</span>
+            <div class="window-controls">
+                <div class="window-control" onclick="closeWindow('about-window')">×</div>
+            </div>
+        </div>
+        <div class="window-content">
+            <h2>Hi, I'm Josh! </h2>
+            <p>Welcome to my ... I'm a ...</p>
+            <br>
+            <p>This desktop interface houses my ... Navigate through the icons to explore different aspects ...</p>
+            <br>
+            <p><strong>Skills:</strong> GIS Analysis, Web Development, Travel Photography, Vintage Computing</p>
+        </div>
     </div>
 
-    <!-- Projects Folder -->
-    <div id="projects" class="window hidden" onclick="focusWindow(this)">
-      <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
-        Projects <button onclick="closeWindow('projects')">X</button>
-      </div>
-      <div class="window-body">
-        <ul class="file-list">
-          <li>
-            <img src="assets/icon-pdf.png" alt="PDF">
-            <a href="assets/my_resume.pdf" target="_blank">my_resume.pdf</a>
-          </li>
-          <li>
-            <img src="assets/icon-video.png" alt="Video">
-            <a href="assets/demo.mp4" target="_blank">demo.mp4</a>
-          </li>
-          <li>
-            <img src="assets/icon-folder.png" alt="Folder">
-            <a href="#" onclick="openWindow('subfolder')">designs/</a>
-          </li>
-        </ul>
-      </div>
+    <!-- Portfolio Window -->
+    <div class="window" id="portfolio-window" style="left: 150px; top: 100px; width: 600px; height: 450px;">
+        <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
+            <span>GIS Portfolio</span>
+            <div class="window-controls">
+                <div class="window-control" onclick="closeWindow('portfolio-window')">×</div>
+            </div>
+        </div>
+        <div class="window-content">
+            <h2>GIS Projects & Analysis</h2>
+            <ul class="file-list">
+                <li class="file-item">
+                    <div class="file-icon" style="background: #00ff00;"></div>
+                    <span>Urban Planning Analysis.pdf</span>
+                </li>
+                <li class="file-item">
+                    <div class="file-icon" style="background: #ffff00;"></div>
+                    <span>Environmental Impact Study.pdf</span>
+                </li>
+                <li class="file-item">
+                    <div class="file-icon" style="background: #ff00ff;"></div>
+                    <span>Transportation Network Analysis.pdf</span>
+                </li>
+                <li class="file-item">
+                    <div class="file-icon" style="background: #00ffff;"></div>
+                    <span>Demographic Mapping Project.pdf</span>
+                </li>
+            </ul>
+            <br>
+            <p><em>Click on any file to view the project details and findings.</em></p>
+        </div>
     </div>
 
-    <!-- Subfolder: Designs -->
-    <div id="subfolder" class="window hidden" onclick="focusWindow(this)">
-      <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
-        Designs Folder <button onclick="closeWindow('subfolder')">X</button>
-      </div>
-      <div class="window-body">
-        <ul class="file-list">
-          <li>
-            <img src="assets/icon-pdf.png" alt="PDF">
-            <a href="assets/designs_mockup.pdf" target="_blank">designs_mockup.pdf</a>
-          </li>
-        </ul>
-      </div>
+    <!-- Travel Photos Window -->
+    <div class="window" id="travel-window" style="left: 200px; top: 120px; width: 600px; height: 500px;">
+        <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
+            <span>Travel Photo Gallery</span>
+            <div class="window-controls">
+                <div class="window-control" onclick="closeWindow('travel-window')">×</div>
+            </div>
+        </div>
+        <div class="window-content">
+            <h2>My Travel</h2>
+            <div class="photo-grid">
+                <div class="photo-item"> 2024<br>🗾</div>
+                <div class="photo-item"> 2023<br>🏔️</div>
+                <div class="photo-item"> 2023<br>🏔️</div>
+                <div class="photo-item"> 2022<br>🏝️</div>
+                <div class="photo-item"> 2022<br>🌄</div>
+                <div class="photo-item"> Zealand 2021<br>🐑</div>
+                <div class="photo-item"> 2021<br>🐪</div>
+                <div class="photo-item"> 2020<br>🏰</div>
+            </div>
+            <p><em>Click on any album to view the full photo collection.</em></p>
+        </div>
     </div>
 
-  </div>
+    <!-- Blog Window -->
+    <div class="window" id="blog-window" style="left: 250px; top: 140px; width: 550px; height: 400px;">
+        <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
+            <span>Blog</span>
+            <div class="window-controls">
+                <div class="window-control" onclick="closeWindow('blog-window')">×</div>
+            </div>
+        </div>
+        <div class="window-content">
+            <h2>Latest Travel Stories</h2>
+            <ul class="file-list">
+                <li class="file-item">
+                    <div class="file-icon" style="background: #ff6666;"></div>
+                    <span>pleaceholder</span>
+                </li>
+                <li class="file-item">
+                    <div class="file-icon" style="background: #66ff66;"></div>
+                    <span>placeholder</span>
+                </li>
+                <li class="file-item">
+                    <div class="file-icon" style="background: #6666ff;"></div>
+                    <span>Hiking </span>
+                </li>
+                <li class="file-item">
+                    <div class="file-icon" style="background: #ffff66;"></div>
+                    <span>Street Food </span>
+                </li>
+                <li class="file-item">
+                    <div class="file-icon" style="background: #ff66ff;"></div>
+                    <span> Photography in </span>
+                </li>
+            </ul>
+            <br>
+            <p><em> photos and travel tips.</em></p>
+        </div>
+    </div>
 
-  <script src="desktop.js"></script>
+    <!-- Files Window -->
+    <div class="window" id="files-window" style="left: 300px; top: 160px; width: 500px; height: 400px;">
+        <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
+            <span>My Computer</span>
+            <div class="window-controls">
+                <div class="window-control" onclick="closeWindow('files-window')">×</div>
+            </div>
+        </div>
+        <div class="window-content">
+            <h2>File System</h2>
+            <ul class="file-list">
+                <li class="file-item">
+                    <div class="file-icon" style="background: #ffff00;"></div>
+                    <span>📁 Documents</span>
+                </li>
+                <li class="file-item">
+                    <div class="file-icon" style="background: #ff00ff;"></div>
+                    <span>📁 Photos</span>
+                </li>
+                <li class="file-item">
+                    <div class="file-icon" style="background: #00ffff;"></div>
+                    <span>📁 Projects</span>
+                </li>
+                <li class="file-item">
+                    <div class="file-icon" style="background: #ff6666;"></div>
+                    <span>📄 Resume.pdf</span>
+                </li>
+                <li class="file-item">
+                    <div class="file-icon" style="background: #66ff66;"></div>
+                    <span>📄 Travel_Itinerary.pdf</span>
+                </li>
+                <li class="file-item">
+                    <div class="file-icon" style="background: #6666ff;"></div>
+                    <span>📄 Research_Paper.pdf</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Contact Window -->
+    <div class="window" id="contact-window" style="left: 350px; top: 180px; width: 450px; height: 350px;">
+        <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
+            <span>Contact Information</span>
+            <div class="window-controls">
+                <div class="window-control" onclick="closeWindow('contact-window')">×</div>
+            </div>
+        </div>
+        <div class="window-content">
+            <h2>Placeholder</h2>
+            <p><strong>Email:</strong> joshdesgagnes@outlook.com</p>
+            <p><strong>LinkedIn:</strong> linkedin.com/in/joshdesgagnes</p>
+            <p><strong>GitHub:</strong> github.com/joshdesgagnes</p>
+            <br>
+            <p>placeholder:</p>
+            <ul>
+                <li>GIS project collaborations</li>
+                <li>Travel photography </li>
+                <li>Professional opportunities</li>
+                <li>...</li>
+            </ul>
+            <br>
+            <p><em>placeholder</em></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
