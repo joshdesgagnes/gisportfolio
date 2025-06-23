@@ -260,7 +260,9 @@ video {
   justify-content: center;
   gap: 1rem;
   margin-top: 1rem;
-  margin-right: 0.8rem;
+  /* Add these if needed to match button positioning */
+  margin-bottom: 1rem;
+  width: 100%;
 }
 
 .social-icons img {
