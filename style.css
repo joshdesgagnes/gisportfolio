@@ -10,10 +10,12 @@
 
 html {
   font-size: 16px;
+  height: 100%;
 }
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  height: 100%;
   line-height: 1.6;
   color: #1C1C1E;
   background-color: #FFFFFF;
