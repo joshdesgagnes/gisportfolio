@@ -259,7 +259,7 @@ video {
   display: flex;
   gap: 1rem;
   margin-top: 1rem;
-  padding-left: 2;
+  padding: 2rem;
 }
 
 .social-icons > * {
