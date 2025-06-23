@@ -68,7 +68,7 @@ h1 {
 }
 
 h1v2 {
-  align-items: center;
+  text-align: center;
   font-family: 'Merriweather', Georgia, serif;
   font-weight: 700;
   font-size: 2rem;
