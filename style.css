@@ -257,9 +257,9 @@ video {
 
 .social-icons {
   display: flex;
-  gap: 1rem;
-  margin-top: 1rem;
-  padding: 1rem;
+  /*gap: 1rem;*/
+  margin-top: 0.5rem;
+  padding: 5rem;
 }
 
 .social-icons > * {
