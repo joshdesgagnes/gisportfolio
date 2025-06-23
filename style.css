@@ -116,7 +116,7 @@ h1 {
 }
 
 .button-group > * {
-  margin-right: 0.2rem;
+  margin-right: 0.8rem;
 }
 
 .button-group > *:last-child {
@@ -258,6 +258,7 @@ video {
   display: flex;
   gap: 1rem;
   justify-content: center;
+  padding-right: 10%;
   margin-top: 1rem;
 }
 
