@@ -250,6 +250,7 @@ button {
 .hidden {
   display: none;
 }
+
 .intro-text {
   font-family: 'Merriweather', Georgia, serif;
   max-width: 700px;
