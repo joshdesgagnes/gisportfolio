@@ -263,3 +263,52 @@ video {
     height: 60vh;
   }
 }
+/* Taskbar */
+.taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2.5rem;
+  background-color: #1C1C1C;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  color: white;
+  font-family: Garamond, serif;
+  z-index: 9999;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.start-button {
+  background: #FF2353;
+  color: #fff;
+  border: none;
+  padding: 0.3rem 1rem;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.taskbar-apps {
+  display: flex;
+  gap: 0.5rem;
+  flex-grow: 1;
+  margin-left: 1rem;
+}
+
+.taskbar-app-button {
+  background: #333;
+  color: #fff;
+  border: none;
+  padding: 0.3rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.taskbar-clock {
+  font-family: monospace;
+  font-size: 0.9rem;
+}
