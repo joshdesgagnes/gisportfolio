@@ -2,195 +2,169 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Joshua Desgagnés – Virtual Desktop</title>
-  <link rel="stylesheet" href="../style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Virtual Desktop</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <div class="desktop-container" id="desktop">
-    <!-- Icons -->
-    <div class="desktop-icon" data-window="travel" tabindex="0" role="button" aria-label="Open Travel Pictures Folder">
-      <img src="assets/icons/folder.svg" alt="Folder Icon" />
-      <span>Travel Pictures</span>
+  <!-- Desktop Icons -->
+  <div id="desktop" class="desktop-container">
+    <div class="desktop-icon" data-window="travel">
+      <img src="https://cdn-icons-png.flaticon.com/512/679/679720.png" alt="Travel Icon" />
+      <span>Travel</span>
     </div>
-
-    <div class="desktop-icon" data-window="blogs" tabindex="0" role="button" aria-label="Open Blogs Folder">
-      <img src="assets/icons/folder.svg" alt="Folder Icon" />
+    <div class="desktop-icon" data-window="blogs">
+      <img src="https://cdn-icons-png.flaticon.com/512/1828/1828778.png" alt="Blogs Icon" />
       <span>Blogs</span>
     </div>
-
-    <div class="desktop-icon" data-window="about" tabindex="0" role="button" aria-label="Open About Me Window">
-      <img src="assets/icons/info.svg" alt="Info Icon" />
-      <span>About Me</span>
+    <div class="desktop-icon" data-window="about">
+      <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="About Icon" />
+      <span>About</span>
     </div>
   </div>
 
   <!-- Windows Container -->
   <div id="windows-container"></div>
 
+  <!-- Taskbar -->
+  <div class="taskbar">
+    <button class="start-button" aria-label="Start Menu">Start</button>
+    <div class="taskbar-apps" id="taskbar-apps"></div>
+    <div class="taskbar-clock" id="taskbar-clock">00:00</div>
+  </div>
+
+  <!-- App Logic -->
   <script>
-    // Simple desktop window system
     const desktop = document.getElementById('desktop');
     const windowsContainer = document.getElementById('windows-container');
+    const taskbarApps = document.getElementById('taskbar-apps');
+    const clock = document.getElementById('taskbar-clock');
 
-    // Window contents for each folder/icon
     const windowContents = {
-      travel: `
-        <h2>Travel Pictures</h2>
-        <p>Gallery coming soon! For now, imagine beautiful travel photos here.</p>
-        <ul>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
-      `,
-      blogs: `
-        <h2>Blogs</h2>
-        <p>Here will be links and snippets of blog posts.</p>
-        <ul>
-          <li><strong>s</strong> - March 2025</li>
-          <li><strong></strong> - January 2025</li>
-          <li><strong>s</strong> - December 2024</li>
-        </ul>
-      `,
-      about: `
-        <h2>About Me</h2>
-        <p>Joshua Desgagnés...</p>
-      `
+      travel: \`<h2>Travel Pictures</h2><p>Gallery coming soon!</p>\`,
+      blogs: \`<h2>Blogs</h2><p>Blog post previews will appear here.</p>\`,
+      about: \`<h2>About Me</h2><p>Joshua Desgagnés is a Canadian web designer & software artist from Québec. This virtual desktop simulates a stylized portfolio interface for his personal and creative work.</p>\`
     };
 
-    // Keep track of opened windows by id
     const openWindows = {};
+    const taskbarButtons = {};
 
-    // Create draggable window
     function createWindow(id, content) {
       if (openWindows[id]) {
-        // Bring window to front
-        openWindows[id].style.zIndex = getNextZIndex();
+        toggleMinimize(id);
         return;
       }
 
       const win = document.createElement('div');
       win.className = 'desktop-window';
       win.style.zIndex = getNextZIndex();
-      win.style.top = `${100 + Object.keys(openWindows).length * 30}px`;
-      win.style.left = `${100 + Object.keys(openWindows).length * 30}px`;
-      win.setAttribute('role', 'dialog');
-      win.setAttribute('aria-modal', 'true');
-      win.setAttribute('aria-labelledby', `${id}-title`);
-
-      win.innerHTML = `
-        <div class="desktop-window-header" id="${id}-title">
-          <span>${capitalizeFirstLetter(id)}</span>
-          <button class="desktop-window-close" aria-label="Close window">&times;</button>
+      win.style.top = \`\${100 + Object.keys(openWindows).length * 30}px\`;
+      win.style.left = \`\${100 + Object.keys(openWindows).length * 30}px\`;
+      win.setAttribute('data-window-id', id);
+      win.innerHTML = \`
+        <div class="desktop-window-header">
+          <span>\${capitalizeFirstLetter(id)}</span>
+          <div>
+            <button class="desktop-window-minimize" title="Minimize">_</button>
+            <button class="desktop-window-close" title="Close">&times;</button>
+          </div>
         </div>
-        <div class="desktop-window-content">${content}</div>
-      `;
+        <div class="desktop-window-content">\${content}</div>
+      \`;
 
-      // Close button event
-      win.querySelector('.desktop-window-close').addEventListener('click', () => {
+      // Close
+      win.querySelector('.desktop-window-close').onclick = () => {
         windowsContainer.removeChild(win);
+        taskbarApps.removeChild(taskbarButtons[id]);
         delete openWindows[id];
-      });
+        delete taskbarButtons[id];
+      };
 
-      // Make draggable
+      // Minimize
+      win.querySelector('.desktop-window-minimize').onclick = () => {
+        toggleMinimize(id);
+      };
+
       makeDraggable(win);
-
       windowsContainer.appendChild(win);
       openWindows[id] = win;
+
+      // Add to taskbar
+      const btn = document.createElement('button');
+      btn.className = 'taskbar-app-button';
+      btn.textContent = capitalizeFirstLetter(id);
+      btn.onclick = () => toggleMinimize(id);
+      taskbarApps.appendChild(btn);
+      taskbarButtons[id] = btn;
     }
 
-    // Capitalize helper
-    function capitalizeFirstLetter(string) {
-      return string.charAt(0).toUpperCase() + string.slice(1);
+    function toggleMinimize(id) {
+      const win = openWindows[id];
+      if (!win) return;
+
+      if (win.style.display === 'none') {
+        win.style.display = 'flex';
+        win.style.zIndex = getNextZIndex();
+      } else {
+        win.style.display = 'none';
+      }
     }
 
-    // Handle icon clicks
-    desktop.querySelectorAll('.desktop-icon').forEach(icon => {
-      icon.addEventListener('click', () => {
-        const id = icon.getAttribute('data-window');
-        createWindow(id, windowContents[id]);
-      });
+    function capitalizeFirstLetter(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
 
-      icon.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          const id = icon.getAttribute('data-window');
-          createWindow(id, windowContents[id]);
-        }
-      });
-    });
-
-    // Track z-index to bring windows to front
     let currentZ = 1000;
     function getNextZIndex() {
       return ++currentZ;
     }
 
-    // Draggable logic
     function makeDraggable(element) {
       const header = element.querySelector('.desktop-window-header');
       let offsetX = 0, offsetY = 0;
       let isDragging = false;
 
-      header.addEventListener('mousedown', dragStart);
-      header.addEventListener('touchstart', dragStart, { passive: false });
-
-      function dragStart(e) {
+      header.addEventListener('mousedown', (e) => {
         e.preventDefault();
         isDragging = true;
         const rect = element.getBoundingClientRect();
-
-        if (e.type === 'mousedown') {
-          offsetX = e.clientX - rect.left;
-          offsetY = e.clientY - rect.top;
-          document.addEventListener('mousemove', dragMove);
-          document.addEventListener('mouseup', dragEnd);
-        } else if (e.type === 'touchstart') {
-          offsetX = e.touches[0].clientX - rect.left;
-          offsetY = e.touches[0].clientY - rect.top;
-          document.addEventListener('touchmove', dragMove, { passive: false });
-          document.addEventListener('touchend', dragEnd);
-        }
-
-        // Bring this window to front on drag start
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+        document.addEventListener('mousemove', dragMove);
+        document.addEventListener('mouseup', dragEnd);
         element.style.zIndex = getNextZIndex();
-      }
+      });
 
       function dragMove(e) {
         if (!isDragging) return;
         e.preventDefault();
-        let clientX, clientY;
-
-        if (e.type === 'mousemove') {
-          clientX = e.clientX;
-          clientY = e.clientY;
-        } else if (e.type === 'touchmove') {
-          clientX = e.touches[0].clientX;
-          clientY = e.touches[0].clientY;
-        }
-
-        const left = clientX - offsetX;
-        const top = clientY - offsetY;
-
-        // Keep window inside viewport bounds (simple clamp)
-        const maxLeft = window.innerWidth - element.offsetWidth;
-        const maxTop = window.innerHeight - element.offsetHeight;
-
-        element.style.left = Math.min(Math.max(0, left), maxLeft) + 'px';
-        element.style.top = Math.min(Math.max(0, top), maxTop) + 'px';
+        element.style.left = \`\${Math.max(0, e.clientX - offsetX)}px\`;
+        element.style.top = \`\${Math.max(0, e.clientY - offsetY)}px\`;
       }
 
       function dragEnd() {
         isDragging = false;
         document.removeEventListener('mousemove', dragMove);
         document.removeEventListener('mouseup', dragEnd);
-        document.removeEventListener('touchmove', dragMove);
-        document.removeEventListener('touchend', dragEnd);
       }
     }
+
+    desktop.querySelectorAll('.desktop-icon').forEach(icon => {
+      icon.addEventListener('click', () => {
+        const id = icon.dataset.window;
+        createWindow(id, windowContents[id]);
+      });
+    });
+
+    function updateClock() {
+      const now = new Date();
+      const hh = now.getHours().toString().padStart(2, '0');
+      const mm = now.getMinutes().toString().padStart(2, '0');
+      clock.textContent = \`\${hh}:\${mm}\`;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
   </script>
 </body>
 </html>
-
