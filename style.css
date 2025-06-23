@@ -113,12 +113,10 @@ h1 {
 /* Button Group */
 .button-group {
   display: flex;
-  justify-items: start;
-  padding-left: 10%;
 }
 
 .button-group > * {
-  margin-right: 0.8rem;
+  margin-right: 0.2rem;
 }
 
 .button-group > *:last-child {
