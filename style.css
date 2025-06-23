@@ -168,3 +168,98 @@ video {
     font-size: 1.5rem;
   }
 }
+/* Desktop Page Styles */
+.desktop-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 2rem;
+  padding: 3rem 2rem;
+  min-height: 100vh;
+  background-color: #fff;
+  font-family: Garamond, serif;
+  color: #1C1C1C;
+}
+
+.desktop-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.15s ease;
+}
+
+.desktop-icon:hover {
+  transform: scale(1.1);
+}
+
+.desktop-icon img {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 0.5rem;
+  filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.1));
+}
+
+.desktop-icon span {
+  font-size: 0.9rem;
+  text-align: center;
+  color: #FF2353;
+  font-weight: 700;
+}
+
+/* Window Styles */
+.desktop-window {
+  position: fixed;
+  top: 100px;
+  left: 100px;
+  width: 400px;
+  max-width: 90vw;
+  max-height: 80vh;
+  background: #fff;
+  border: 2px solid #FF2353;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(255,35,83,0.3);
+  display: flex;
+  flex-direction: column;
+  font-family: Garamond, serif;
+  color: #1C1C1C;
+  z-index: 1000;
+}
+
+.desktop-window-header {
+  background-color: #FF2353;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  cursor: move;
+  user-select: none;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.desktop-window-close {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.desktop-window-content {
+  padding: 1rem;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .desktop-window {
+    width: 90vw;
+    height: 60vh;
+  }
+}
