@@ -1,8 +1,11 @@
+@import url('https://fonts.googleapis.com/css?family=Merriweather:300,700&display=swap');
+
 /* Base Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Merriweather', serif;
 }
 
 html {
