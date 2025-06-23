@@ -1,9 +1,10 @@
 let zIndexCounter = 10;
 
 function openWindow(id) {
-  document.getElementById(id).classList.remove('hidden');
+  const el = document.getElementById(id);
+  el.classList.remove('hidden');
   document.getElementById('start-menu').classList.add('hidden');
-  focusWindow(document.getElementById(id));
+  focusWindow(el);
 }
 
 function closeWindow(id) {
@@ -15,9 +16,7 @@ function focusWindow(el) {
   el.style.zIndex = zIndexCounter;
 }
 
-// Dragging logic
 let dragOffsetX, dragOffsetY;
-
 function startDrag(e, windowEl) {
   const rect = windowEl.getBoundingClientRect();
   dragOffsetX = e.clientX - rect.left;
@@ -37,7 +36,15 @@ function startDrag(e, windowEl) {
   window.addEventListener('mouseup', onMouseUp);
 }
 
-// Start menu toggle
 document.getElementById('start-button').addEventListener('click', () => {
   document.getElementById('start-menu').classList.toggle('hidden');
 });
+
+// Live Clock
+function updateClock() {
+  const now = new Date();
+  const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  document.getElementById('clock').textContent = time;
+}
+setInterval(updateClock, 1000);
+updateClock();
