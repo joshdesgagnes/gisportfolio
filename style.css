@@ -255,12 +255,12 @@ video {
 
 /* Social Icons */
 .social-icons {
-  display: grid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 1rem;
   margin-top: 1rem;
-  justify-items: start;
-  align-items: center;
-  padding-left: 25%;
+  margin-right: 0.8rem;
 }
 
 .social-icons img {
