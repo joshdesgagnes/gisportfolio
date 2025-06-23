@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>My Portfolio Desktop</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="stylesheet" href="../styles.css" />
-</head>
 <body class="desktop">
   <div id="desktop">
-    
+
     <!-- Desktop Icons -->
     <div class="icon" onclick="openWindow('about')">
       <img src="assets/icon-folder.png" alt="About" />
@@ -20,17 +12,7 @@
       <span>Projects</span>
     </div>
 
-    <div class="icon" onclick="openWindow('resume')">
-      <img src="assets/icon-pdf.png" alt="Resume" />
-      <span>Resume</span>
-    </div>
-
-    <div class="icon" onclick="openWindow('video')">
-      <img src="assets/icon-video.png" alt="Video" />
-      <span>Demo Video</span>
-    </div>
-
-    <!-- Start Button & Menu -->
+    <!-- Taskbar & Start Menu -->
     <div id="taskbar">
       <div id="start-button" class="button">Start</div>
       <div id="clock"></div>
@@ -40,12 +22,10 @@
       <ul>
         <li onclick="openWindow('about')">About Me</li>
         <li onclick="openWindow('projects')">Projects</li>
-        <li onclick="openWindow('resume')">Resume (PDF)</li>
-        <li onclick="openWindow('video')">Video Demo (MP4)</li>
       </ul>
     </div>
 
-    <!-- Windows -->
+    <!-- About Window -->
     <div id="about" class="window hidden" onclick="focusWindow(this)">
       <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
         About Me <button onclick="closeWindow('about')">X</button>
@@ -56,40 +36,45 @@
       </div>
     </div>
 
+    <!-- Projects Folder -->
     <div id="projects" class="window hidden" onclick="focusWindow(this)">
       <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
         Projects <button onclick="closeWindow('projects')">X</button>
       </div>
       <div class="window-body">
-        <ul>
-          <li><a href="#">Design Portfolio</a></li>
-          <li><a href="#">Web App Showcase</a></li>
+        <ul class="file-list">
+          <li>
+            <img src="assets/icon-pdf.png" alt="PDF">
+            <a href="assets/my_resume.pdf" target="_blank">my_resume.pdf</a>
+          </li>
+          <li>
+            <img src="assets/icon-video.png" alt="Video">
+            <a href="assets/demo.mp4" target="_blank">demo.mp4</a>
+          </li>
+          <li>
+            <img src="assets/icon-folder.png" alt="Folder">
+            <a href="#" onclick="openWindow('subfolder')">designs/</a>
+          </li>
         </ul>
       </div>
     </div>
 
-    <div id="resume" class="window hidden" onclick="focusWindow(this)">
+    <!-- Subfolder: Designs -->
+    <div id="subfolder" class="window hidden" onclick="focusWindow(this)">
       <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
-        Resume <button onclick="closeWindow('resume')">X</button>
+        Designs Folder <button onclick="closeWindow('subfolder')">X</button>
       </div>
       <div class="window-body">
-        <embed src="assets/resume.pdf" type="application/pdf" width="100%" height="500px"/>
+        <ul class="file-list">
+          <li>
+            <img src="assets/icon-pdf.png" alt="PDF">
+            <a href="assets/designs_mockup.pdf" target="_blank">designs_mockup.pdf</a>
+          </li>
+        </ul>
       </div>
     </div>
 
-    <div id="video" class="window hidden" onclick="focusWindow(this)">
-      <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
-        Demo Video <button onclick="closeWindow('video')">X</button>
-      </div>
-      <div class="window-body">
-        <video controls>
-          <source src="assets/video1.mp4" type="video/mp4" />
-          Your browser does not support video.
-        </video>
-      </div>
-    </div>
   </div>
 
   <script src="desktop.js"></script>
 </body>
-</html>
