@@ -1,50 +1,113 @@
-let zIndexCounter = 10;
+    <script>
+        let zIndexCounter = 10;
+        let startMenuOpen = false;
 
-function openWindow(id) {
-  const el = document.getElementById(id);
-  el.classList.remove('hidden');
-  document.getElementById('start-menu').classList.add('hidden');
-  focusWindow(el);
-}
+        function openWindow(id) {
+            const window = document.getElementById(id);
+            window.classList.add('active');
+            focusWindow(window);
+            closeStartMenu();
+        }
 
-function closeWindow(id) {
-  document.getElementById(id).classList.add('hidden');
-}
+        function closeWindow(id) {
+            document.getElementById(id).classList.remove('active');
+        }
 
-function focusWindow(el) {
-  zIndexCounter++;
-  el.style.zIndex = zIndexCounter;
-}
+        function focusWindow(window) {
+            zIndexCounter++;
+            window.style.zIndex = zIndexCounter;
+        }
 
-let dragOffsetX, dragOffsetY;
-function startDrag(e, windowEl) {
-  const rect = windowEl.getBoundingClientRect();
-  dragOffsetX = e.clientX - rect.left;
-  dragOffsetY = e.clientY - rect.top;
+        function toggleStartMenu() {
+            const startMenu = document.getElementById('start-menu');
+            startMenuOpen = !startMenuOpen;
+            if (startMenuOpen) {
+                startMenu.classList.add('active');
+            } else {
+                startMenu.classList.remove('active');
+            }
+        }
 
-  function onMouseMove(e) {
-    windowEl.style.left = (e.clientX - dragOffsetX) + 'px';
-    windowEl.style.top = (e.clientY - dragOffsetY) + 'px';
-  }
+        function closeStartMenu() {
+            document.getElementById('start-menu').classList.remove('active');
+            startMenuOpen = false;
+        }
 
-  function onMouseUp() {
-    window.removeEventListener('mousemove', onMouseMove);
-    window.removeEventListener('mouseup', onMouseUp);
-  }
+        // Window dragging functionality
+        let dragOffsetX, dragOffsetY;
 
-  window.addEventListener('mousemove', onMouseMove);
-  window.addEventListener('mouseup', onMouseUp);
-}
+        function startDrag(e, windowEl) {
+            e.preventDefault();
+            focusWindow(windowEl);
+            
+            const rect = windowEl.getBoundingClientRect();
+            dragOffsetX = e.clientX - rect.left;
+            dragOffsetY = e.clientY - rect.top;
 
-document.getElementById('start-button').addEventListener('click', () => {
-  document.getElementById('start-menu').classList.toggle('hidden');
-});
+            function onMouseMove(e) {
+                const newX = e.clientX - dragOffsetX;
+                const newY = e.clientY - dragOffsetY;
+                
+                // Keep window within bounds
+                const maxX = window.innerWidth - windowEl.offsetWidth;
+                const maxY = window.innerHeight - windowEl.offsetHeight;
+                
+                windowEl.style.left = Math.max(0, Math.min(newX, maxX)) + 'px';
+                windowEl.style.top = Math.max(0, Math.min(newY, maxY)) + 'px';
+            }
 
-// Live Clock
-function updateClock() {
-  const now = new Date();
-  const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  document.getElementById('clock').textContent = time;
-}
-setInterval(updateClock, 1000);
-updateClock();
+            function onMouseUp() {
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+            }
+
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
+        }
+
+        // Clock functionality
+        function updateClock() {
+            const now = new Date();
+            const time = now.toLocaleTimeString([], { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true 
+            });
+            document.getElementById('clock').textContent = time;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Close start menu when clicking elsewhere
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.start-button') && !e.target.closest('.start-menu')) {
+                closeStartMenu();
+            }
+        });
+
+        // Desktop icon selection
+        document.querySelectorAll('.desktop-icon').forEach(icon => {
+            icon.addEventListener('click', function(e) {
+                if (!e.detail || e.detail === 1) { // Single click
+                    document.querySelectorAll('.desktop-icon').forEach(i => i.classList.remove('selected'));
+                    this.classList.add('selected');
+                }
+            });
+        });
+
+        // Window focus on click
+        document.querySelectorAll('.window').forEach(window => {
+            window.addEventListener('mousedown', function() {
+                focusWindow(this);
+            });
+        });
+
+        // Remove boot screen after animation
+        setTimeout(() => {
+            const bootScreen = document.querySelector('.boot-screen');
+            if (bootScreen) {
+                bootScreen.remove();
+            }
+        }, 5000);
+    </script>
