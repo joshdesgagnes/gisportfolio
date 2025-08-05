@@ -345,3 +345,11 @@ video {
     font-size: 0.8rem;
   }
 }
+
+.video-dropdown {
+  margin-top: 1rem;
+}
+
+.hidden {
+  display: none;
+}
