@@ -16,41 +16,100 @@
     <h2>Interactive Web Projects</h2>
     <ul>
       <li>
-        <div class="activity-list">
+        <div class="activity-list dropdown-toggle">
           <span class="activity-prompt">&gt;</span>
-          <a href="https://joshdesgagnes.github.io/experience-builder-app/" target="_blank" class="activity-link">ArcGIS Experience Builder Developer Edition (Custom Web App & Widgets) - Incident Reporting App</a>
+          <a href="#" class="activity-link">ArcGIS Experience Builder Developer Edition (Custom Web App & Widgets) - Incident Reporting App</a>
+        </div>
+        <div class="video-dropdown hidden">
+          <div class="video-card">
+            <h3>ArcGIS Experience Builder Developer Edition (Custom Web App & Widgets) - Incident Reporting App</h3>
+            <video controls>
+              <source src="media/Incident Reporter (small).mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
         </div>
       </li>
+
       <li>
-        <div class="activity-list">
+        <div class="activity-list dropdown-toggle">
           <span class="activity-prompt">&gt;</span>
-          <a href="https://storymaps.arcgis.com/stories/238f9b0ed5ab4384b9bf665ebccec215" target="_blank" class="activity-link">ArcGIS StoryMap – LA River Recommended Park Sites</a>
+          <a href="#" class="activity-link">ArcGIS StoryMap – LA River Recommended Park Sites</a>
+        </div>
+        <div class="video-dropdown hidden">
+          <div class="video-card">
+            <h3>ArcGIS StoryMap – LA River Recommended Park Sites</h3>
+            <video controls>
+              <source src="media/LA River (small).mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
         </div>
       </li>
+    
       <li>
-        <div class="activity-list">
+        <div class="activity-list dropdown-toggle">
           <span class="activity-prompt">&gt;</span>
-          <a href="https://experience.arcgis.com/experience/35eb1453a18c4c2c9e9526f2b2bfcdca/" target="_blank" class="activity-link">ArcGIS Experience Builder - Kamloops Art, Culture, and Education Sites</a>
+          <a href="#" class="activity-link">ArcGIS Experience Builder - Kamloops Art, Culture, and Education Sites</a>
+        </div>
+        <div class="video-dropdown hidden">
+          <div class="video-card">
+            <h3>ArcGIS Experience Builder - Kamloops Art, Culture, and Education Sites</h3>
+            <video controls>
+              <source src="media/Kamloops.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
         </div>
       </li>
+    
       <li>
-        <div class="activity-list">
+        <div class="activity-list dropdown-toggle">
           <span class="activity-prompt">&gt;</span>
-          <a href="https://www.arcgis.com/apps/dashboards/c87d482d6c494dc89c8beceedc90b6b7" target="_blank" class="activity-link">ArcGIS Dashboards - Surrey Heritage Trees</a>
+          <a href="#" class="activity-link">ArcGIS Dashboards - Surrey Heritage Trees</a>
+        </div>
+        <div class="video-dropdown hidden">
+          <div class="video-card">
+            <h3>ArcGIS Dashboards - Surrey Heritage Trees</h3>
+            <video controls>
+              <source src="media/Surrey Trees.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
         </div>
       </li>
+    
       <li>
-        <div class="activity-list">
+        <div class="activity-list dropdown-toggle">
           <span class="activity-prompt">&gt;</span>
-          <a href="https://www.arcgis.com/apps/dashboards/5c959131965b47a3a7133d34060d96c6" target="_blank" class="activity-link">ArcGIS Dashboards - Victoria Tree Species</a>
+          <a href="#" class="activity-link">ArcGIS Dashboards - Victoria Tree Species</a>
+        </div>
+        <div class="video-dropdown hidden">
+          <div class="video-card">
+            <h3>ArcGIS Dashboards - Victoria Tree Species</h3>
+            <video controls>
+              <source src="media/Victoria Trees.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
         </div>
       </li>
+    
       <li>
-        <div class="activity-list">
+        <div class="activity-list dropdown-toggle">
           <span class="activity-prompt">&gt;</span>
-          <a href="https://storymaps.arcgis.com/stories/fde45288ea80487e939c61fc5dcd3292" target="_blank" class="activity-link">ArcGIS StoryMap - Travel Around France & Corsica</a>
+          <a href="#" class="activity-link">ArcGIS StoryMap - Travel Around France & Corsica</a>
         </div>
-      </li>
+        <div class="video-dropdown hidden">
+          <div class="video-card">
+            <h3>ArcGIS StoryMap - Travel Around France & Corsica</h3>
+            <video controls>
+              <source src="media/Travel Around France & Corsica (small).mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+      </li>      
     </ul>
     
     <h2>Static Maps (Project Snapshots)</h2>
@@ -133,5 +192,20 @@
       </div>      
     </div>
   </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const toggles = document.querySelectorAll(".dropdown-toggle");
+  
+      toggles.forEach(toggle => {
+        toggle.addEventListener("click", (e) => {
+          e.preventDefault();
+          const videoSection = toggle.nextElementSibling;
+          if (videoSection) {
+            videoSection.classList.toggle("hidden");
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>
